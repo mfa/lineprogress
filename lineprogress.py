@@ -1,9 +1,9 @@
+#!/usr/bin/env python
 """ pre-commit hook for counting lines in .tex files to measure writing progress.
 
     :copyright: (c) 2012 by Andreas Madsack.
     :license: BSD, see LICENSE for more details.
 """
-
 import shelve
 import subprocess
 import os
