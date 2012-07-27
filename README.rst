@@ -22,8 +22,8 @@ How it works
 2) Calculate the lines of tex (without empty lines and comments) for the file.
 
 3) Add filename, timestamp and lines to the shelf. The key is the filename, and
-the datastructure is a list of tuples, with the newest at the end. Every tuple
-is a timestamp and the current line count.
+   the datastructure is a list of tuples, with the newest at the end. Every tuple
+   is a timestamp and the current line count.
 
 
 How to install
