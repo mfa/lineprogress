@@ -71,7 +71,10 @@ class LineProgress:
             linesum = self.get_lines(fn)
             if fn not in d:
                 d[fn] = []
-
+            else:
+                if d[fn][-1][1] == linesum:
+                    # linesum hasn't changed
+                    continue
             xx = d[fn]
             data = (now, linesum, )
             xx.append(data)
