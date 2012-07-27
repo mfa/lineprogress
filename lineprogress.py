@@ -1,5 +1,6 @@
 #!/usr/bin/env python
-""" pre-commit hook for counting lines in .tex files to measure writing progress.
+""" pre-commit hook for counting lines in .tex files to measure
+    writing progress.
 
     :copyright: (c) 2012 by Andreas Madsack.
     :license: BSD, see LICENSE for more details.
@@ -10,6 +11,7 @@ import os
 import re
 import datetime
 import argparse
+
 
 def git_get_toplevel():
     """ returns the toplevel of the current repository
@@ -39,7 +41,8 @@ class LineProgress:
     
     def __init__(self, opts):
         self.toplevel = git_get_toplevel()
-        self.shelfname = os.path.join(self.toplevel, '.git',
+        self.shelfname = os.path.join(self.toplevel,
+                                      '.git',
                                       'lineprogress')
 
         if opts.init:
@@ -88,7 +91,7 @@ class LineProgress:
         """
         d = shelve.open(self.shelfname, flag='c')
         for key in d.keys():
-            if listtype=='l':
+            if listtype == 'l':
                 print("%s: %s" % (key, str(d[key])))
             else:
                 values = ', '.join(map(lambda x:str(x[1]), d[key]))
@@ -100,7 +103,7 @@ class LineProgress:
         """
         fn = os.path.join(self.toplevel, filename)
         f = open(fn, 'r')
-        linesum = sum(map(lambda x:check_line(x), f.readlines()))
+        linesum = sum(map(check_line, f.readlines()))
         f.close()
         return linesum
 
@@ -118,14 +121,18 @@ class LineProgress:
 
 def options():
     parser = argparse.ArgumentParser(description=
-                                     'saves the progress in lines on tex files')
+                                     'saves the progress in lines '
+                                     'on tex files.')
 
-    parser.add_argument('--list', dest='list', default=False, action='store_true',
+    parser.add_argument('--list', dest='list', default=False,
+                        action='store_true',
                         help='list all elements in the shelf')
     parser.add_argument('--list-type', dest='listtype', default='s',
                         help='list type: (s)hort or (l)ong')
-    parser.add_argument('--init', dest='init', default=False, action='store_true',
-                        help='init the shelf with all .tex files in the repository')
+    parser.add_argument('--init', dest='init', default=False,
+                        action='store_true',
+                        help='init the shelf with all .tex files in '
+                        'the repository')
     args = parser.parse_args()
     return args
 
