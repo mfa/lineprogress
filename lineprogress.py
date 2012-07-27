@@ -87,14 +87,12 @@ class LineProgress:
         short format doesn't show datetime ob the changes
         """
         d = shelve.open(self.shelfname, flag='c')
-        print listtype
         for key in d.keys():
             if listtype=='l':
                 print("%s: %s" % (key, str(d[key])))
             else:
                 values = ', '.join(map(lambda x:str(x[1]), d[key]))
                 print("%s: %s" % (key, values))
-
         d.close()
 
     def get_lines(self, filename):
