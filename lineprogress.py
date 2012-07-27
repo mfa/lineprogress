@@ -36,6 +36,17 @@ def check_line(line):
         return False
     return True
 
+def check_files(file_list):
+    """ Check if file is a texfile
+
+    maybe add option for blacklisting specific files
+    """
+    fn_checked = []
+    for fn in file_list:
+        if fn.endswith('.tex'):
+            fn_checked.append(fn)
+    return fn_checked
+
 
 class LineProgress:
     
@@ -51,19 +62,9 @@ class LineProgress:
             self.list(opts.listtype)
         else:
             files = git_get_changed_files().split('\n')
-            checked_files = self.check(files)
+            checked_files = check_files(files)
             if checked_files:
                 self.update(checked_files)
-
-    def check(self, file_list):
-        """ Check if file is a texfile
-        TODO: add option for blacklisting specific files
-        """
-        fn_checked = []
-        for fn in file_list:
-            if fn.endswith('.tex'):
-                fn_checked.append(fn)
-        return fn_checked
 
     def update(self, file_list):
         """ update the shelf for a given filelist
@@ -108,12 +109,12 @@ class LineProgress:
         return linesum
 
     def initialize(self):
-        """ init shelf with all files self.check returns True
+        """ init shelf with all files check_files returns True
         """
         file_list = []
-        for root, dirs, files in os.walk(self.toplevel):
+        for root, _, files in os.walk(self.toplevel):
             # relpath removes repository path from filename
-            file_list.extend(self.check(
+            file_list.extend(check_files(
                     [os.path.relpath(os.path.join(root, i), self.toplevel)
                      for i in files]))
         self.update(file_list)
